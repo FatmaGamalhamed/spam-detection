@@ -2,7 +2,15 @@
 
 An end-to-end **Spam Detection system** built using Natural Language Processing (NLP) and Machine Learning to classify SMS messages as **Spam** or **Ham**.
 
-The project covers the complete machine learning workflow, from text preprocessing and TF-IDF feature extraction to model training, evaluation, pipeline creation, and API deployment with FastAPI.
+The project covers the complete machine learning workflow, from text preprocessing and TF-IDF feature extraction to model training, evaluation, pipeline creation, API serving, and public deployment.
+
+---
+
+## 🚀 Live Demo
+
+Try the deployed **SpamGuard AI** application:
+
+👉 [SpamGuard AI — Public Demo](https://fatmag104-spam-detection.hf.space/)
 
 ---
 
@@ -36,7 +44,7 @@ Model Evaluation
      ↓
 Final ML Pipeline
      ↓
-FastAPI
+Prediction API
      ↓
 Spam / Ham Prediction
 ```
@@ -71,12 +79,14 @@ The dataset was obtained from the SMS Spam Collection used in the PyCon tutorial
 * Logistic Regression
 * Multinomial Naive Bayes
 
-### Deployment / API
+### API & Deployment
 
 * FastAPI
 * Uvicorn
 * Pydantic
 * Joblib
+* Hugging Face Spaces
+* Gradio
 
 ### Frontend
 
@@ -100,7 +110,7 @@ The TF-IDF vectorizer is fitted only on the training data and then applied to th
 
 ## 🤖 Models
 
-Two classification models were evaluated:
+Two classification models were evaluated.
 
 ### 1. Multinomial Naive Bayes
 
@@ -122,7 +132,7 @@ Two classification models were evaluated:
 
 ### Final Model
 
-**Logistic Regression** was selected as the final model based on its performance on the test set.
+**Logistic Regression** was selected as the final model based on its performance on the held-out test set.
 
 > These metrics are measured on the project's held-out test split and should not be interpreted as guaranteed real-world performance.
 
@@ -154,7 +164,7 @@ This allows preprocessing and prediction to be performed consistently when the m
 
 ## ⚡ FastAPI
 
-The trained model is exposed through a FastAPI backend.
+The trained model is also exposed through a FastAPI backend.
 
 ### Available Endpoints
 
@@ -175,9 +185,23 @@ Receives an SMS message and returns:
 
 ---
 
+## 🌐 Public Demo
+
+For the public online demonstration, the trained pipeline is loaded into a **Gradio application hosted on Hugging Face Spaces**.
+
+The public demo allows users to:
+
+* Enter an SMS message
+* Run the trained ML model
+* View Spam / Ham prediction
+* View confidence
+* Interact with the model without running the project locally
+
+---
+
 ## 🖥️ Web Interface
 
-The project includes a modern web interface called **SpamGuard AI**.
+The project also includes a modern web interface called **SpamGuard AI**.
 
 The interface allows users to:
 
@@ -201,6 +225,7 @@ spam-detection/
 ├── app.py
 ├── requirements.txt
 ├── spam_detection_pipeline.pkl
+├── README.md
 └── .gitignore
 ```
 
@@ -210,7 +235,10 @@ spam-detection/
 
 ### 1. Clone the repository
 
-Clone the project from GitHub.
+```bash
+git clone https://github.com/FatmaGamalhamed/spam-detection.git
+cd spam-detection
+```
 
 ### 2. Install dependencies
 
@@ -224,9 +252,15 @@ pip install -r requirements.txt
 python -m uvicorn app:app --reload
 ```
 
-### 4. Open the web interface
+### 4. Open the API documentation
 
-Open the frontend in your browser and make sure the FastAPI server is running.
+```text
+http://127.0.0.1:8000/docs
+```
+
+### 5. Open the web interface
+
+Make sure the FastAPI server is running, then open the frontend in your browser.
 
 ---
 
@@ -278,6 +312,8 @@ Through this project, I practiced:
 * Scikit-learn Pipelines
 * Model serialization with Joblib
 * FastAPI
+* Gradio
+* Hugging Face Spaces
 * Connecting a machine learning model to a web interface
 
 ---
@@ -292,7 +328,8 @@ Possible improvements include:
 * Using word and character n-grams
 * Handling multilingual SMS messages
 * Adding a larger and more diverse dataset
-* Deploying the application publicly
+* Improving confidence calibration
+* Adding a richer public demo interface
 
 ---
 
@@ -313,4 +350,4 @@ Focused on:
 
 ## ⭐ Project Goal
 
-This project is part of my Machine Learning portfolio and demonstrates an end-to-end workflow for building and serving a real-world NLP classification system.
+This project is part of my Machine Learning portfolio and demonstrates an end-to-end workflow for building, evaluating, serving, and deploying a real-world NLP classification system.
