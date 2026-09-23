@@ -1,0 +1,1365 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SpamGuard AI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10B981;
+            --primary-dark: #047857;
+            --primary-light: #6EE7B7;
+
+            --mint: #34D399;
+            --soft-green: #A7F3D0;
+
+            --background: #07120E;
+            --background-soft: #0B1B15;
+
+            --card: #10251D;
+            --card-light: #153126;
+
+            --text: #F0FDF4;
+            --text-soft: #C7DCCF;
+            --muted: #8BA99A;
+
+            --border: rgba(110, 231, 183, 0.12);
+
+            --success: #4ADE80;
+            --danger: #FB7185;
+            --warning: #FBBF24;
+
+            --shadow: rgba(0, 0, 0, 0.35);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Poppins", sans-serif;
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(16, 185, 129, 0.14),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(52, 211, 153, 0.10),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 50% 90%,
+                    rgba(4, 120, 87, 0.14),
+                    transparent 30%
+                ),
+                var(--background);
+
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(
+                    rgba(255,255,255,0.015) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,0.015) 1px,
+                    transparent 1px
+                );
+            background-size: 50px 50px;
+            mask-image: linear-gradient(
+                to bottom,
+                black,
+                transparent 90%
+            );
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+            width: 100%;
+            padding: 22px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary-dark),
+                    var(--primary)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 0 25px rgba(16, 185, 129, 0.28);
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+            border-radius: 50px;
+
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(110, 231, 183, 0.12);
+
+            color: var(--primary-light);
+            font-size: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+
+            background: var(--success);
+
+            box-shadow:
+                0 0 10px rgba(74, 222, 128, 0.8);
+
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .5;
+                transform: scale(.75);
+            }
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            max-width: 1000px;
+            margin: 70px auto 50px;
+            padding: 0 25px;
+
+            text-align: center;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 15px;
+
+            border-radius: 50px;
+
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid rgba(110, 231, 183, 0.14);
+
+            color: var(--primary-light);
+
+            font-size: 12px;
+            font-weight: 500;
+
+            margin-bottom: 25px;
+        }
+
+        .badge i {
+            color: var(--mint);
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 78px);
+            line-height: 1.05;
+
+            font-weight: 800;
+            letter-spacing: -3px;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #FFFFFF 10%,
+                    #A7F3D0 48%,
+                    #34D399 85%
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            margin-bottom: 22px;
+        }
+
+        .hero p {
+            max-width: 700px;
+            margin: auto;
+
+            color: var(--text-soft);
+
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .main-container {
+            width: min(900px, 92%);
+            margin: 0 auto;
+        }
+
+        .glass-card {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(21, 49, 38, 0.88),
+                    rgba(10, 27, 21, 0.94)
+                );
+
+            border: 1px solid var(--border);
+
+            border-radius: 28px;
+
+            padding: 32px;
+
+            box-shadow:
+                0 25px 70px var(--shadow),
+                inset 0 1px 0 rgba(255,255,255,0.025);
+
+            backdrop-filter: blur(20px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        .secure-label {
+            font-size: 11px;
+            color: var(--muted);
+
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .secure-label i {
+            color: var(--success);
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 190px;
+
+            resize: vertical;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            border: 1px solid rgba(110, 231, 183, 0.12);
+
+            background:
+                rgba(4, 15, 11, 0.65);
+
+            color: var(--text);
+
+            font-family: inherit;
+            font-size: 15px;
+
+            outline: none;
+
+            transition: .3s;
+        }
+
+        textarea::placeholder {
+            color: #718A7E;
+        }
+
+        textarea:focus {
+            border-color: rgba(52, 211, 153, 0.45);
+
+            box-shadow:
+                0 0 0 4px rgba(16, 185, 129, 0.06),
+                0 0 30px rgba(16, 185, 129, 0.08);
+        }
+
+        .input-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-top: 12px;
+
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .analyze-btn {
+            width: 100%;
+
+            margin-top: 22px;
+
+            padding: 16px 20px;
+
+            border: none;
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    #047857,
+                    #10B981,
+                    #34D399
+                );
+
+            color: #ECFDF5;
+
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 12px 30px rgba(16, 185, 129, 0.20);
+
+            transition: .25s;
+        }
+
+        .analyze-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 18px 40px rgba(16, 185, 129, 0.28);
+        }
+
+        .analyze-btn:active {
+            transform: translateY(0);
+        }
+
+        .analyze-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* =========================
+           RESULT
+        ========================= */
+
+        .result-card {
+            display: none;
+
+            margin-top: 22px;
+
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(16, 185, 129, 0.05);
+
+            border: 1px solid rgba(110, 231, 183, 0.10);
+
+            animation: slideUp .45s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .result-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .result-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(74, 222, 128, 0.10);
+            color: var(--success);
+        }
+
+        .confidence {
+            color: var(--text-soft);
+            font-size: 13px;
+        }
+
+        .progress-container {
+            height: 10px;
+
+            background:
+                rgba(255,255,255,0.05);
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            width: 0%;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #047857,
+                    #10B981,
+                    #6EE7B7
+                );
+
+            transition: width 1s ease;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+
+            margin-top: 25px;
+        }
+
+        .stat {
+            padding: 22px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            border: 1px solid rgba(255,255,255,0.05);
+
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 26px;
+            font-weight: 700;
+
+            background:
+                linear-gradient(
+                    100deg,
+                    var(--primary-light),
+                    var(--mint)
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        section {
+            width: min(1000px, 92%);
+            margin: 110px auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-heading h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* =========================
+           PERFORMANCE
+        ========================= */
+
+        .performance-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 15px;
+        }
+
+        .metric {
+            padding: 25px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(21, 49, 38, 0.80),
+                    rgba(10, 27, 21, 0.85)
+                );
+
+            border: 1px solid rgba(110, 231, 183, 0.08);
+
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 25px;
+            font-weight: 700;
+
+            color: var(--primary-light);
+        }
+
+        .metric-name {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           PIPELINE
+        ========================= */
+
+        .pipeline {
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 14px;
+        }
+
+        .pipeline-step {
+            padding: 22px 14px;
+
+            border-radius: 18px;
+
+            background:
+                rgba(255,255,255,0.025);
+
+            border:
+                1px solid rgba(255,255,255,0.05);
+
+            text-align: center;
+
+            position: relative;
+        }
+
+        .pipeline-step i {
+            font-size: 23px;
+            color: var(--primary);
+
+            margin-bottom: 12px;
+        }
+
+        .pipeline-step h4 {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .pipeline-step p {
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.6;
+        }
+
+        .arrow {
+            position: absolute;
+
+            right: -13px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: var(--primary-dark);
+
+            z-index: 2;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            width: min(1000px, 92%);
+            margin: 100px auto 40px;
+
+            padding-top: 30px;
+
+            border-top:
+                1px solid rgba(255,255,255,0.06);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            color: var(--muted);
+
+            font-size: 11px;
+        }
+
+        footer strong {
+            color: var(--primary-light);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .performance-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .pipeline {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .arrow {
+                display: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            nav {
+                padding: 18px 5%;
+            }
+
+            .hero {
+                margin-top: 50px;
+            }
+
+            .hero h1 {
+                letter-spacing: -2px;
+            }
+
+            .glass-card {
+                padding: 20px;
+                border-radius: 22px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .performance-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pipeline {
+                grid-template-columns: 1fr;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav>
+
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+
+            SpamGuard AI
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            AI Model Online
+        </div>
+
+    </nav>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <div class="hero">
+
+        <div class="badge">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            AI-Powered Spam Detection
+        </div>
+
+        <h1>
+            Detect Spam.<br>
+            Stay Protected.
+        </h1>
+
+        <p>
+            Analyze suspicious messages using Machine Learning
+            and Natural Language Processing.
+            Fast, simple, and intelligent.
+        </p>
+
+    </div>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <div class="main-container">
+
+        <div class="glass-card">
+
+            <div class="card-header">
+
+                <div class="card-title">
+                    <i class="fa-solid fa-message"></i>
+                    Analyze Message
+                </div>
+
+                <div class="secure-label">
+                    <i class="fa-solid fa-lock"></i>
+                    Secure Analysis
+                </div>
+
+            </div>
+
+
+            <textarea
+                id="messageInput"
+                maxlength="500"
+                placeholder="Paste or type a message here..."
+            ></textarea>
+
+
+            <div class="input-footer">
+
+                <span>
+                    <i class="fa-solid fa-circle-info"></i>
+                    Maximum 500 characters
+                </span>
+
+                <span id="charCount">
+                    0 / 500
+                </span>
+
+            </div>
+
+
+            <button
+                class="analyze-btn"
+                id="analyzeBtn"
+            >
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Analyze Message
+            </button>
+
+
+            <!-- RESULT -->
+
+            <div
+                class="result-card"
+                id="resultCard"
+            >
+
+                <div class="result-top">
+
+                    <div class="result-label">
+
+                        <div class="result-icon">
+                            <i id="resultIcon"
+                               class="fa-solid fa-check">
+                            </i>
+                        </div>
+
+                        <span id="resultText">
+                            Ham
+                        </span>
+
+                    </div>
+
+                    <div class="confidence">
+                        <span id="confidenceText">
+                            0%
+                        </span>
+                        confidence
+                    </div>
+
+                </div>
+
+
+                <div class="progress-container">
+
+                    <div
+                        class="progress"
+                        id="progressBar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATS
+        ========================= -->
+
+        <div class="stats">
+
+            <div class="stat">
+
+                <div class="stat-number">
+                    97.3%
+                </div>
+
+                <div class="stat-label">
+                    Model Accuracy
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-number">
+                    5,572
+                </div>
+
+                <div class="stat-label">
+                    Messages Analyzed
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-number">
+                    7,668
+                </div>
+
+                <div class="stat-label">
+                    TF-IDF Features
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         MODEL PERFORMANCE
+    ========================= -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <h2>
+                Model Performance
+            </h2>
+
+            <p>
+                Evaluation metrics on the test dataset
+            </p>
+
+        </div>
+
+
+        <div class="performance-grid">
+
+            <div class="metric">
+
+                <div class="metric-value">
+                    97.31%
+                </div>
+
+                <div class="metric-name">
+                    Accuracy
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-value">
+                    100%
+                </div>
+
+                <div class="metric-name">
+                    Precision
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-value">
+                    79.87%
+                </div>
+
+                <div class="metric-name">
+                    Recall
+                </div>
+
+            </div>
+
+
+            <div class="metric">
+
+                <div class="metric-value">
+                    88.81%
+                </div>
+
+                <div class="metric-name">
+                    F1 Score
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         ML PIPELINE
+    ========================= -->
+
+    <section>
+
+        <div class="section-heading">
+
+            <h2>
+                Machine Learning Pipeline
+            </h2>
+
+            <p>
+                From raw text to intelligent prediction
+            </p>
+
+        </div>
+
+
+        <div class="pipeline">
+
+            <div class="pipeline-step">
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <h4>
+                    SMS Input
+                </h4>
+
+                <p>
+                    Raw text message
+                </p>
+
+                <span class="arrow">
+                    →
+                </span>
+
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <i class="fa-solid fa-broom"></i>
+
+                <h4>
+                    Preprocessing
+                </h4>
+
+                <p>
+                    Clean and prepare text
+                </p>
+
+                <span class="arrow">
+                    →
+                </span>
+
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <i class="fa-solid fa-chart-simple"></i>
+
+                <h4>
+                    TF-IDF
+                </h4>
+
+                <p>
+                    Convert text to numbers
+                </p>
+
+                <span class="arrow">
+                    →
+                </span>
+
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <i class="fa-solid fa-brain"></i>
+
+                <h4>
+                    ML Model
+                </h4>
+
+                <p>
+                    Logistic Regression
+                </p>
+
+                <span class="arrow">
+                    →
+                </span>
+
+            </div>
+
+
+            <div class="pipeline-step">
+
+                <i class="fa-solid fa-shield-halved"></i>
+
+                <h4>
+                    Prediction
+                </h4>
+
+                <p>
+                    Spam or Ham
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <div>
+            Built with
+            <strong>Python</strong>,
+            <strong>Scikit-learn</strong>
+            &amp;
+            <strong>FastAPI</strong>
+        </div>
+
+        <div>
+            SpamGuard AI • ML Portfolio Project
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const messageInput =
+            document.getElementById("messageInput");
+
+        const charCount =
+            document.getElementById("charCount");
+
+        const analyzeBtn =
+            document.getElementById("analyzeBtn");
+
+        const resultCard =
+            document.getElementById("resultCard");
+
+        const resultText =
+            document.getElementById("resultText");
+
+        const confidenceText =
+            document.getElementById("confidenceText");
+
+        const progressBar =
+            document.getElementById("progressBar");
+
+        const resultIcon =
+            document.getElementById("resultIcon");
+
+
+        /* Character Counter */
+
+        messageInput.addEventListener(
+            "input",
+            () => {
+
+                charCount.textContent =
+                    `${messageInput.value.length} / 500`;
+
+            }
+        );
+
+
+        /* Analyze */
+
+        analyzeBtn.addEventListener(
+            "click",
+            async () => {
+
+                const message =
+                    messageInput.value.trim();
+
+
+                if (!message) {
+
+                    alert(
+                        "Please enter a message first."
+                    );
+
+                    return;
+                }
+
+
+                analyzeBtn.disabled = true;
+
+                analyzeBtn.innerHTML =
+                    '<i class="fa-solid fa-spinner fa-spin"></i> Analyzing...';
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "http://127.0.0.1:8000/predict",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    message: message
+                                })
+                            }
+                        );
+
+
+                    if (!response.ok) {
+                        throw new Error(
+                            "API request failed"
+                        );
+                    }
+
+
+                    const data =
+                        await response.json();
+
+
+                    const probability =
+                        data.spam_probability * 100;
+
+
+                    resultCard.style.display =
+                        "block";
+
+
+                    confidenceText.textContent =
+                        `${probability.toFixed(2)}%`;
+
+
+                    progressBar.style.width =
+                        `${probability}%`;
+
+
+                    if (data.prediction === "Spam") {
+
+                        resultText.textContent =
+                            "Spam Detected";
+
+                        resultIcon.className =
+                            "fa-solid fa-triangle-exclamation";
+
+                        resultIcon.parentElement.style.background =
+                            "rgba(251, 113, 133, 0.10)";
+
+                        resultIcon.style.color =
+                            "#FB7185";
+
+                        progressBar.style.background =
+                            "linear-gradient(90deg, #BE123C, #FB7185)";
+
+                    } else {
+
+                        resultText.textContent =
+                            "Looks Safe";
+
+                        resultIcon.className =
+                            "fa-solid fa-shield-check";
+
+                        resultIcon.parentElement.style.background =
+                            "rgba(74, 222, 128, 0.10)";
+
+                        resultIcon.style.color =
+                            "#4ADE80";
+
+                        progressBar.style.background =
+                            "linear-gradient(90deg, #047857, #10B981, #6EE7B7)";
+                    }
+
+
+                } catch (error) {
+
+                    alert(
+                        "Could not connect to the Spam Detection API. Make sure FastAPI is running."
+                    );
+
+                } finally {
+
+                    analyzeBtn.disabled = false;
+
+                    analyzeBtn.innerHTML =
+                        '<i class="fa-solid fa-magnifying-glass"></i> Analyze Message';
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+</html>
+```
